@@ -9,14 +9,14 @@ class Todo {
         });
     }
 
-    updateTodo({ id, title}) {
+    updateTodo( id, {title, body}) {
         return this.user
-        .put(`/todos/${id}`, { title })
+        .put(`/todos/${id}`, { title , body})
         .then(({data}) => data)}
 
-    createTodo({ title }) {
+    createTodo({ title, body }) {
         return this.todo
-        .post("/todos", { title })
+        .post("/todos", { title, body })
         .then(({data}) => data)}
 
     getOne(id) {

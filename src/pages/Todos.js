@@ -1,115 +1,61 @@
 import React, { Component } from "react";
+import todosService from "./../lib/todos-service";
 
 class Todos extends Component {
   state = { 
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    location: "",
-    skills: "",
-    preferedProject: ""
+    title: "",
+    body: ""
   };
 
   handleFormSubmit = event => {
     event.preventDefault();
-    const { firstName, lastName, email, password, location, skills, preferedProject } = this.state;
+    const { title, body } = this.state;
 
-    this.props.signup(firstName, lastName, email, password, location, skills, preferedProject)
+    todosService.createTodo ({ title, body })
+      .then( (createdTodo) => console.log('createdTodo', createdTodo))
+      .catch( (err) => console.log(err))
   };
 
   handleChange = event => {
-    let { name, value, type, options } = event.target;
-
-    if(type==="select-multiple") {
-      value = [];
-      for (var i = 0; i < options.length; i++) {
-        if (options[i].selected) {
-          value.push(options[i].value);
-        }
-      }
-      console.log('value multi select', value);
-    }
+    let { name, value } = event.target;
+    
+    
     this.setState({ [name]: value });
-  };
+}
 
   render() {
-    const { firstName, lastName, email, password, location, skills, preferedProject } = this.state;
+    const { title, body } = this.state;
     return (
-      <div className="field">
-        <h1 className="title" >Sign Up</h1>
+      <div >
+        <h1 >Create a Todo</h1>
 
         <form onSubmit={this.handleFormSubmit}>
 
-          <label className="label">Last Name:</label>
-          <input className="input"
+          <label >Title:</label>
+          <input 
             type="text"
-            name="lastName"
-            value={lastName}
+            name="title"
+            value={title}
             onChange={this.handleChange}
           />
 
-          <label className="label">First Name:</label>
-          <input className="input"
+          <label >Body:</label>
+          <input 
             type="text"
-            name="firstName"
-            value={firstName}
+            name="body"
+            value={body}
             onChange={this.handleChange}
           />
 
-          <label className="label">Email:</label>
-          <input className="input"
-            type="text"
-            name="email"
-            value={email}
-            onChange={this.handleChange}
-          />
-
-          <label className="label">Password:</label>
-          <input className="input"
-            type="password"
-            name="password"
-            value={password}
-            onChange={this.handleChange}
-          />
-
-          <label className="label">Location:</label>
-          <input className="input"
-            type="text"
-            name="location"
-            value={location}
-            onChange={this.handleChange}
-          />
-
-          <label className="label">Skills:</label>
-          <div className="select is-multiple">
-            <select name="skills" value={skills} onChange={this.handleChange} multiple>
-                <option value="data">data</option>
-                <option value="WebDev">WebDev</option>
-                <option value="UXUI">UXUI</option>
-            </select>
-          </div>
-
-          <label className="label">Prefered Project Category:</label>
-          <div className="select is-multiple">
-            <select name="preferedProject" value={preferedProject} onChange={this.handleChange} multiple>
-                <option value="NGO">NGO</option>
-                <option value="Hackathon">Hackathon</option>
-                <option value="Business">Business</option>
-            </select>
-          </div>
-
-          <div className="field">
-           <input className="button is-info is-outlined" type="submit" value="Signup" />
-          </div>
-
+          <input type="submit" value="Create" />
+          
         </form>
 
-        <p>Already have account? <Link to={"/login"}> Login</Link></p>
         
+             
       </div>
     );
   }
 }
 
-export default withAuth(Signup);
+export default (Todos);
