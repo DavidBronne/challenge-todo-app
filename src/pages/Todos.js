@@ -12,7 +12,7 @@ class Todos extends Component {
   componentDidMount() {
     todosService.getAll()
       .then( (taskList) => {
-        this.setState( {taskList})
+        this.setState( {taskList} )
       })
       .catch((error) => console.log('error', error))
   }
@@ -22,7 +22,13 @@ class Todos extends Component {
     const { title, body } = this.state;
 
     todosService.createTodo ({ title, body })
-      .then( (createdTodo) => console.log('createdTodo', createdTodo))
+        .then(
+            todosService.getAll()
+              .then( (taskList) => {
+                this.setState( {taskList , title:"" , body:""})
+              })
+        )
+        
       .catch( (err) => console.log(err))
   };
 

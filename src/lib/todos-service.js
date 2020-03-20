@@ -10,7 +10,7 @@ class Todo {
     }
 
     updateTodo( id, {title, body}) {
-        return this.user
+        return this.todo
         .put(`/todos/${id}`, { title , body})
         .then(({data}) => data)}
 
